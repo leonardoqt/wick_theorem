@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string.h>
+#include <sstream>
 #include <vector>
 
 using namespace std;
@@ -11,7 +12,14 @@ int main()
 {
 	string op, da, ov;
 	string result, subterm;
-	cin>>op>>da>>ov;
+	string tmp;
+	stringstream ss;
+	getline(cin,tmp);
+	ss<<(tmp);
+	getline(ss,op,' ');
+	getline(ss,da,' ');
+	getline(ss,ov,' ');
+	//cin>>op>>da>>ov;
 	vector<char> c_op(op.begin(),op.end());
 	vector<char> c_da(da.begin(),da.end());
 	vector<char> c_ov(ov.begin(),ov.end());
@@ -121,7 +129,10 @@ void gen_wick(vector<char> op, vector<char> da, vector<char> ov, string subterm,
 				if ( da[t1] == '+' && ov[t1] == ov[0] )
 				{
 					// new contraction
-					w_subterm = subterm + '(' + op[0] + op[t1] + ')';
+					if ( op[0] == op[t1] )
+						w_subterm = subterm;
+					else
+						w_subterm = subterm + '(' + op[0] + op[t1] + ')';
 					if ( t1%2 == 0 )
 						w_sign = -sign;
 					else
