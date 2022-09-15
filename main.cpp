@@ -62,15 +62,38 @@ int main()
 				else if ( m1 == '-' ) nm++;
 			if (np == nm)
 			{
-				subterm.clear();
-				subterm = "";
-				result.clear();
-				result = "";
-				gen_wick(c_op,new_da,c_ov,subterm,1,result);
-				string tmp_op(op_a.begin(),op_a.end());
-				string tmp_ov(ov_a.begin(),ov_a.end());
-				cout<<tmp_op<<" = "<<tmp_ov<<" :"<<endl;
-				cout<<"    "<<result<<endl;
+				// check if +- heading is valid
+				int p_o = 0, p_v = 0, pass = 1;
+				for (size_t t2=0; t2<c_ov.size(); t2++)
+				{
+					if ( c_ov[t2] == 'o' )
+					{
+						if ( new_da[t2] == '+' ) p_o++;
+						else p_o--;
+					}
+					else
+					{
+						if ( new_da[t2] == '+' ) p_v++;
+						else p_v--;
+					}
+					if ( p_o > 0 || p_v > 0 )
+					{
+						pass = 0;
+						break;
+					}
+				}
+				if ( pass )
+				{
+					subterm.clear();
+					subterm = "";
+					result.clear();
+					result = "";
+					gen_wick(c_op,new_da,c_ov,subterm,1,result);
+					string tmp_op(op_a.begin(),op_a.end());
+					string tmp_ov(ov_a.begin(),ov_a.end());
+					cout<<tmp_op<<" = "<<tmp_ov<<" :"<<endl;
+					cout<<"    "<<result<<endl;
+				}
 			}
 		}
 	}
